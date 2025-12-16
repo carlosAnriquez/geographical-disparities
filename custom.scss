@@ -1,0 +1,47 @@
+/*-- scss:defaults --*/
+
+// Colores personalizados
+$body-color: #333333;
+$link-color: #0066cc;
+$code-bg: #f5f5f5;
+
+// Tipografía
+$font-family-sans-serif: "Times New Roman", Times, serif;
+$font-size-root: 12pt;
+$line-height-base: 1.5;
+
+/*-- scss:rules --*/
+
+// Justificación de texto
+body {
+  text-align: justify;
+}
+
+// Configuración de títulos
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  text-align: left;
+}
+
+// Espaciado para secciones
+section {
+  margin-bottom: 2rem;
+}
+
+// Tablas académicas
+.table {
+  font-size: 11pt;
+  margin: 1.5rem auto;
+}
+
+// Figuras
+.figure {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.figure-caption {
+  font-size: 11pt;
+  font-style: italic;
+  margin-top: 0.5rem;
+}

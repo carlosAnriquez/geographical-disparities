@@ -1,0 +1,438 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  spanish,
+  12pt,
+  letterpaper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \setmainfont[]{Times New Roman}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage{setspace}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+\ifPDFTeX
+\else
+\babelfont{rm}[]{Times New Roman}
+\fi
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+\usepackage[style=apa,]{biblatex}
+\addbibresource{references.bib}
+
+
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{longtable}
+\usepackage{colortbl}
+\usepackage{array}
+\usepackage{anyfontsize}
+\usepackage{multirow}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{indentfirst}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Tabla de contenidos}
+\else
+  \newcommand\contentsname{Tabla de contenidos}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{Listado de Figuras}
+\else
+  \newcommand\listfigurename{Listado de Figuras}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{Listado de Tablas}
+\else
+  \newcommand\listtablename{Listado de Tablas}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figura}
+\else
+  \newcommand\figurename{Figura}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Tabla}
+\else
+  \newcommand\tablename{Tabla}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listado}
+\newcommand*\listoflistings{\listof{codelisting}{Listado de Listados}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Recognizing inequalities in the Chilean academia: A longitudinal analysis of how Gender, Social Class, and Geographic Origins affects Scientific Careers},
+  pdfauthor={Roxana Chiappa; Paula Clasing},
+  pdflang={es},
+  pdfkeywords={geographical disparities, interseccionality, PHD
+education, academic inequalities},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Recognizing inequalities in the Chilean academia: A longitudinal
+analysis of how Gender, Social Class, and Geographic Origins affects
+Scientific Careers}
+\author{Roxana Chiappa \and Paula Clasing}
+\date{2025-12-15}
+\begin{document}
+\maketitle
+
+\renewcommand*\contentsname{Tabla de contenidos}
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+
+\setstretch{1.5}
+\section{Introduction}\label{introduction}
+
+One of the central promises of scientific institutions lies in their
+supposed meritocratic character: a reward system where scientific
+outcomes are evaluated based mainly on intellectual merit. Yet this
+ideal has been widely contested. Throughout the 20th and 21st centuries,
+research has shown that the social stratification present in broader
+society permeates the organization and prestige hierarchies
+(references). As a result, academic and scientific institutions not only
+reflect existing inequalities but often actively reproduce them.
+
+Among these, gender has been the most extensively studied societal
+structure for understanding how stratification and inequality are
+(re)produced through both institutionalized and informal mechanisms
+within academic and scientific institutions (xxxx). Hundreds of
+scholarly works have examined how gender structures---often
+conceptualized in binary terms---constrain women's access to and
+advancement within academia across different contexts and roles (xxxx).
+In many countries, women's representation has increased at the
+undergraduate level, including in math-intensive fields historically
+dominated by men. However, their presence declines sharply at senior
+ranks, echoing what has been widely described as the ``leaky pipeline.''
+
+While gender remains central to understanding inequality in scientific
+careers, we argue for widening the analytical lens to include other
+persistent structures---particularly social class and geographic
+origin---that have shaped the educational trajectories of those who are,
+or will become, the next generation of scientists. These factors have
+been widely analyzed in the broad social stratification literature
+(xxxxxx), particularly for their impact on access to prestigious
+educational institutions. Yet they remain largely overlooked in studies
+of scientific careers; perhaps due to the difficulty of accessing these
+data and/or the assumption that class and geographic origin become
+imperceptible at the light of their scientific productivity (xxxx).
+
+This article addresses that gap by analyzing three cohorts of Chilean
+researchers (N = 2,436) who received a competitive government-funded
+doctoral fellowship between 2014 and 2016. Chile was selected as the
+national case for three key reasons. First, the country significantly
+expanded its doctoral fellowship programs after 2008, offering funding
+for studies both within Chile and abroad. Second, Chile exhibits high
+levels of social class and geographic inequality---patterns that
+characterize the higher education systems of many countries across Latin
+America. Third, it offers access to a unique longitudinal dataset that
+includes researchers' high school and regional background, enabling us
+to examine the effects of gender, class, and geographic origin across
+three key academic milestones: (1) the selection and unequal chances of
+entering a prestigious undergraduate institution, (2) the pursuit of
+doctoral studies, and (3) scientific productivity in the six years
+following the fellowship award. Using this dataset, we applied a path
+model analysis to estimate the direct and indirect effects of gender,
+social class, and geographic origin across these three moments.
+
+While gendered patterns of scientific productivity align with existing
+literature, our findings complicate linear models of stratification.
+Researchers from working-class backgrounds produce research outputs at
+rates statistically similar to those of their upper-class peers. Even
+more unexpectedly, researchers who grew up in less economically and
+culturally developed regions outperform those from the wealthier,
+metropolitan center. These findings suggest that commonly held
+assumptions about advantage and academic performance do not fully
+account for the lived realities---and possible exceptional
+adaptations---of those who enter academia from structurally marginalized
+positions.
+
+\section{Conceptual framework: stratification on
+sciences.}\label{conceptual-framework-stratification-on-sciences.}
+
+\subsection{Geographical disparities in academic
+trayectories}\label{geographical-disparities-in-academic-trayectories}
+
+\subsection{Socioeconomic status}\label{socioeconomic-status}
+
+\subsection{Disciplinary differences in scientific
+production}\label{disciplinary-differences-in-scientific-production}
+
+\subsection{Gender and scientific
+production}\label{gender-and-scientific-production}
+
+\subsection{Scolarship selection
+process}\label{scolarship-selection-process}
+
+\section{Method}\label{method}
+
+\subsection{Data and sample}\label{data-and-sample}
+
+\subsection{Variables}\label{variables}
+
+\begin{table}
+\caption*{
+{\large Table 1. Distribution of categorical variables}
+} 
+\fontsize{8.2pt}{9.9pt}\selectfont
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lr}
+\toprule
+Category & n (\%) \\ 
+\midrule\addlinespace[2.5pt]
+\multicolumn{2}{l}{{\cellcolor[HTML]{F0F0F0}{National PhD}}} \\[2.5pt] 
+\midrule\addlinespace[2.5pt]
+Chile & 1523 (62.5\%) \\ 
+Extranjero & 913 (37.5\%) \\ 
+\midrule\addlinespace[2.5pt]
+\multicolumn{2}{l}{{\cellcolor[HTML]{F0F0F0}{Socio-economic Status}}} \\[2.5pt] 
+\midrule\addlinespace[2.5pt]
+Alto & 849 (34.9\%) \\ 
+Bajo & 473 (19.4\%) \\ 
+Medio & 663 (27.2\%) \\ 
+Medio alto & 451 (18.5\%) \\ 
+\midrule\addlinespace[2.5pt]
+\multicolumn{2}{l}{{\cellcolor[HTML]{F0F0F0}{Region}}} \\[2.5pt] 
+\midrule\addlinespace[2.5pt]
+Otra región & 720 (29.6\%) \\ 
+Región Metropolitana & 1190 (48.9\%) \\ 
+Valparaiso o Concepción & 525 (21.6\%) \\ 
+\midrule\addlinespace[2.5pt]
+\multicolumn{2}{l}{{\cellcolor[HTML]{F0F0F0}{Gender}}} \\[2.5pt] 
+\midrule\addlinespace[2.5pt]
+Femenino & 1010 (41.5\%) \\ 
+Masculino & 1426 (58.5\%) \\ 
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\begin{table}
+\caption*{
+{\large Tabla 2. Descriptive statistics for numerical values}
+} 
+\fontsize{8.2pt}{9.9pt}\selectfont
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
+\toprule
+{\bfseries Variable} & Min. & Max. & Mean & SE & {\bfseries N} \\ 
+\midrule\addlinespace[2.5pt]
+{\bfseries PhD Prestige} & -1.35 & 4.20 & 0.04 & 0.96 & 2436 \\ 
+{\bfseries Publications after PhD} & -0.83 & 28.44 & 0.00 & 1.00 & 2436 \\ 
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\subsection{Analytic Strategy}\label{analytic-strategy}
+
+\section{Findings}\label{findings}
+
+\section{Conclusions}\label{conclusions}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Session info}\label{session-info}
+
+\begin{verbatim}
+- Session info ---------------------------------------------------------------
+ setting  value
+ version  R version 4.5.1 (2025-06-13 ucrt)
+ os       Windows 11 x64 (build 22621)
+ system   x86_64, mingw32
+ ui       RTerm
+ language (EN)
+ collate  Spanish_Chile.utf8
+ ctype    Spanish_Chile.utf8
+ tz       America/Santiago
+ date     2025-12-15
+ pandoc   3.4 @ C:/Program Files/RStudio/resources/app/bin/quarto/bin/tools/ (via rmarkdown)
+ quarto   NA @ C:\\Users\\carlo\\AppData\\Local\\Programs\\Quarto\\bin\\quarto.exe
+
+- Packages -------------------------------------------------------------------
+ package      * version date (UTC) lib source
+ cli            3.6.5   2025-04-23 [1] CRAN (R 4.5.1)
+ digest         0.6.37  2024-08-19 [1] CRAN (R 4.5.1)
+ dplyr        * 1.1.4   2023-11-17 [1] CRAN (R 4.5.1)
+ evaluate       1.0.5   2025-08-27 [1] CRAN (R 4.5.1)
+ farver         2.1.2   2024-05-13 [1] CRAN (R 4.5.1)
+ fastmap        1.2.0   2024-05-15 [1] CRAN (R 4.5.1)
+ forcats      * 1.0.0   2023-01-29 [1] CRAN (R 4.5.1)
+ generics       0.1.4   2025-05-09 [1] CRAN (R 4.5.1)
+ ggplot2      * 4.0.0   2025-09-11 [1] CRAN (R 4.5.1)
+ glue           1.8.0   2024-09-30 [1] CRAN (R 4.5.1)
+ gt           * 1.0.0   2025-04-05 [1] CRAN (R 4.5.1)
+ gtable         0.3.6   2024-10-25 [1] CRAN (R 4.5.1)
+ hms            1.1.3   2023-03-21 [1] CRAN (R 4.5.1)
+ htmltools      0.5.8.1 2024-04-04 [1] CRAN (R 4.5.1)
+ jsonlite       2.0.0   2025-03-27 [1] CRAN (R 4.5.1)
+ knitr        * 1.50    2025-03-16 [1] CRAN (R 4.5.1)
+ lifecycle      1.0.4   2023-11-07 [1] CRAN (R 4.5.1)
+ lubridate    * 1.9.4   2024-12-08 [1] CRAN (R 4.5.1)
+ magrittr       2.0.3   2022-03-30 [1] CRAN (R 4.5.1)
+ pacman         0.5.1   2019-03-11 [1] CRAN (R 4.5.1)
+ pillar         1.11.0  2025-07-04 [1] CRAN (R 4.5.1)
+ pkgconfig      2.0.3   2019-09-22 [1] CRAN (R 4.5.1)
+ purrr        * 1.1.0   2025-07-10 [1] CRAN (R 4.5.1)
+ R6             2.6.1   2025-02-15 [1] CRAN (R 4.5.1)
+ RColorBrewer   1.1-3   2022-04-03 [1] CRAN (R 4.5.0)
+ readr        * 2.1.5   2024-01-10 [1] CRAN (R 4.5.1)
+ rlang          1.1.6   2025-04-11 [1] CRAN (R 4.5.1)
+ rmarkdown      2.29    2024-11-04 [1] CRAN (R 4.5.1)
+ rstudioapi     0.17.1  2024-10-22 [1] CRAN (R 4.5.1)
+ S7             0.2.0   2024-11-07 [1] CRAN (R 4.5.1)
+ scales       * 1.4.0   2025-04-24 [1] CRAN (R 4.5.1)
+ sessioninfo  * 1.2.3   2025-02-05 [1] CRAN (R 4.5.1)
+ sjPlot       * 2.9.0   2025-07-10 [1] CRAN (R 4.5.1)
+ stringi        1.8.7   2025-03-27 [1] CRAN (R 4.5.0)
+ stringr      * 1.5.2   2025-09-08 [1] CRAN (R 4.5.1)
+ tibble       * 3.3.0   2025-06-08 [1] CRAN (R 4.5.1)
+ tidyr        * 1.3.1   2024-01-24 [1] CRAN (R 4.5.1)
+ tidyselect     1.2.1   2024-03-11 [1] CRAN (R 4.5.1)
+ tidyverse    * 2.0.0   2023-02-22 [1] CRAN (R 4.5.1)
+ timechange     0.3.0   2024-01-18 [1] CRAN (R 4.5.1)
+ tzdb           0.5.0   2025-03-15 [1] CRAN (R 4.5.1)
+ vctrs          0.6.5   2023-12-01 [1] CRAN (R 4.5.1)
+ withr          3.0.2   2024-10-28 [1] CRAN (R 4.5.1)
+ xfun           0.53    2025-08-19 [1] CRAN (R 4.5.1)
+ xml2           1.4.0   2025-08-20 [1] CRAN (R 4.5.1)
+ yaml           2.3.10  2024-07-26 [1] CRAN (R 4.5.0)
+
+ [1] C:/Users/carlo/AppData/Local/R/win-library/4.5
+ [2] C:/Program Files/R/R-4.5.1/library
+ * -- Packages attached to the search path.
+
+------------------------------------------------------------------------------
+\end{verbatim}
+
+\subsection{Referencias}\label{referencias}
+
+\printbibliography[heading=none]
+
+
+
+
+
+\end{document}

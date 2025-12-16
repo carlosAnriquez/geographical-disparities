@@ -1,0 +1,41 @@
+project:
+  type: default
+  output-dir: _output
+
+format:
+  html:
+    theme: 
+      - cosmo
+      - custom.scss
+    css: styles.css
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: true
+    code-summary: "Mostrar código"
+    fig-width: 8
+    fig-height: 6
+    smooth-scroll: true
+    
+  pdf:
+    documentclass: article
+    papersize: letter
+    geometry:
+      - margin=1in
+    fontsize: 12pt
+    linestretch: 1.5
+    mainfont: "Times New Roman"
+    include-in-header:
+      text: |
+        \usepackage{setspace}
+        \usepackage{float}
+        \usepackage{indentfirst}
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    fig-width: 6.5
+    fig-height: 4.5
+    fig-pos: 'H'
+    keep-tex: true
+    cite-method: biblatex
+    biblio-style: apa

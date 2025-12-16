@@ -1,0 +1,198 @@
+---
+title: "Recognizing inequalities in the Chilean academia: A longitudinal analysis of how Gender, Social Class, and Geographic Origins affects Scientific Careers"
+author: 
+  - name: "Roxana Chiappa"
+    affiliation: "Universidad de Tarapacá"
+    email: ""
+  - name: "Paula Clasing"
+    affiliation: ""
+    email: ""
+  - name: "Carlos Anríquez"
+    emai: ""
+date: today
+abstract: |
+ 
+keywords: ["geographical disparities", "interseccionality", "PHD education", "academic inequalities"]
+lang: es
+bibliography: references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = 'center',
+  fig.width = 8,
+  fig.height = 6
+)
+
+# Cargar librerías necesarias
+pacman::p_load(
+  dplyr, ggplot2, tidyverse, tibble, scales, purrr, 
+  gt, sessioninfo, sjPlot, stringr, knitr
+)
+
+# Tema personalizado para gráficos
+theme_academic <- theme_minimal() +
+  theme(
+    text = element_text(family = "serif", size = 12),
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 11),
+    axis.title = element_text(face = "bold"),
+    legend.position = "bottom",
+    panel.grid.minor = element_blank()
+  )
+
+theme_set(theme_academic)
+```
+
+# Introduction
+
+One of the central promises of scientific institutions lies in their supposed meritocratic character: a reward system where scientific outcomes are evaluated based mainly on intellectual merit. Yet this ideal has been widely contested. Throughout the 20th and 21st centuries, research has shown that the social stratification present in broader society permeates the organization and prestige hierarchies (references). As a result, academic and scientific institutions not only reflect existing inequalities but often actively reproduce them.
+
+Among these, gender has been the most extensively studied societal structure for understanding how stratification and inequality are (re)produced through both institutionalized and informal mechanisms within academic and scientific institutions (xxxx). Hundreds of scholarly works have examined how gender structures—often conceptualized in binary terms—constrain women’s access to and advancement within academia across different contexts and roles (xxxx). In many countries, women’s representation has increased at the undergraduate level, including in math-intensive fields historically dominated by men. However, their presence declines sharply at senior ranks, echoing what has been widely described as the “leaky pipeline.”
+
+While gender remains central to understanding inequality in scientific careers, we argue for widening the analytical lens to include other persistent structures—particularly social class and geographic origin—that have shaped the educational trajectories of those who are, or will become, the next generation of scientists. These factors have been widely analyzed in the broad social stratification literature (xxxxxx), particularly for their impact on access to prestigious educational institutions. Yet they remain largely overlooked in studies of scientific careers; perhaps due to the difficulty of accessing these data and/or the assumption that class and geographic origin become imperceptible at the light of their scientific productivity  (xxxx).
+
+This article addresses that gap by analyzing three cohorts of Chilean researchers (N = 2,436) who received a competitive government-funded doctoral fellowship between 2014 and 2016.  Chile was selected as the national case for three key reasons. First, the country significantly expanded its doctoral fellowship programs after 2008, offering funding for studies both within Chile and abroad. Second, Chile exhibits high levels of social class and geographic inequality—patterns that characterize the higher education systems of many countries across Latin America. Third, it offers access to a unique longitudinal dataset that includes researchers’ high school and regional background, enabling us to examine the effects of gender, class, and geographic origin across three key academic milestones: (1) the selection and unequal chances of entering a prestigious undergraduate institution, (2) the pursuit of doctoral studies, and (3) scientific productivity in the six years following the fellowship award. Using this dataset, we applied a path model analysis to estimate the direct and indirect effects of gender, social class, and geographic origin across these three moments.
+
+While gendered patterns of scientific productivity align with existing literature, our findings complicate linear models of stratification. Researchers from working-class backgrounds produce research outputs at rates statistically similar to those of their upper-class peers. Even more unexpectedly, researchers who grew up in less economically and culturally developed regions outperform those from the wealthier, metropolitan center. These findings suggest that commonly held assumptions about advantage and academic performance do not fully account for the lived realities—and possible exceptional adaptations—of those who enter academia from structurally marginalized positions.
+
+
+# Conceptual framework: stratification on sciences.
+
+## Geographical disparities in academic trayectories
+
+## Socioeconomic status
+
+## Disciplinary differences in scientific production
+
+## Gender and scientific production
+
+## Scolarship selection process
+
+# Method
+
+## Data and sample
+
+## Variables
+
+```{r cargar bb.dd, echo= FALSE}
+
+df_senderos <- read_rds("output/df_senderos.rds")
+
+```
+
+
+```{r tabla-variables, echo=FALSE}
+# Preparar datos categóricos
+# Crear tabla para variables categóricas
+tabla_categoricas <- df_senderos %>%
+  dplyr::select(ES_CHILE, SEXO_REGISTRADO, GSE_ESTABLECIMIENTO, REGIONES_3) %>%
+  pivot_longer(everything(), names_to = "Variable", values_to = "Valor") %>%
+  drop_na() %>%
+  count(Variable, Valor) %>%
+  group_by(Variable) %>%
+  mutate(Porcentaje = round(n / sum(n) * 100, 1),
+         Frecuencia = paste0(n, " (", Porcentaje, "%)")) %>%
+  dplyr::select(Variable, Valor, Frecuencia) %>%
+  mutate(Variable = case_when(
+      Variable == "ES_CHILE" ~ "National PhD",
+      Variable == "SEXO_REGISTRADO" ~ "Gender",
+      Variable == "GSE_ESTABLECIMIENTO" ~ "Socio-economic Status",
+      Variable == "REGIONES_3" ~ "Region",
+      TRUE ~ Variable))
+# Crear tabla para variables numéricas
+tabla_numericas <- df_senderos %>%
+  dplyr::select(Average, z_scopus_despues) %>%
+  pivot_longer(everything(), names_to = "Variable", values_to = "Valor") %>%
+  drop_na() %>%
+  group_by(Variable) %>%
+  summarise(
+    Mínimo = round(min(Valor, na.rm = TRUE), 2),
+    Máximo = round(max(Valor, na.rm = TRUE), 2),
+    Media = round(mean(Valor, na.rm = TRUE), 2),
+    `Desv. Est.` = round(sd(Valor, na.rm = TRUE), 2),
+    N = n()
+  ) %>%
+  mutate(
+    Variable = case_when(
+      Variable == "Average" ~ "PhD Prestige",
+      Variable == "z_scopus_despues" ~ "Publications after PhD",
+      TRUE ~ Variable
+    )
+  )
+
+# Tabla de variables categóricas con grupos
+tabla_categoricas %>%
+  gt(groupname_col = "Variable") %>%
+  tab_header(
+    title = "Table 1. Distribution of categorical variables"
+  ) %>%
+  cols_label(
+    Valor = "Category",
+    Frecuencia = "n (%)"
+  ) %>%
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_labels()
+  ) %>%
+  tab_style(
+    style = cell_fill(color = "#f0f0f0"),
+    locations = cells_row_groups()
+  ) %>%
+  tab_options(
+    table.font.size = px(11),
+    heading.title.font.size = px(12),
+    heading.title.font.weight = "bold",
+    row_group.font.weight = "bold"
+  )
+
+# Mostrar tabla de variables numéricas
+tabla_numericas %>%
+  gt() %>%
+  tab_header(
+    title = "Tabla 2. Descriptive statistics for numerical values"
+  ) %>%
+  cols_label(
+    Variable = "Variable",
+    Mínimo = "Min.",
+    Máximo = "Max.",
+    Media = "Mean",
+    `Desv. Est.` = "SE",
+    N = "N"
+  ) %>%
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_labels()
+  ) %>%
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_body(columns = Variable)
+  ) %>%
+  tab_options(
+    table.font.size = px(11),
+    heading.title.font.size = px(12),
+    heading.title.font.weight = "bold"
+  )
+```
+
+## Analytic Strategy
+
+# Findings
+
+# Conclusions
+
+---
+
+## Session info
+
+```{r session-info, echo= FALSE}
+sessioninfo::session_info()
+```
+
+## Referencias
+
+::: {#refs}
+:::

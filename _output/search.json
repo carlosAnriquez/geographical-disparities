@@ -1,0 +1,122 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Geographical Disparities",
+    "section": "",
+    "text": "1 Introduction\nOne of the central promises of scientific institutions lies in their supposed meritocratic character: a reward system where scientific outcomes are evaluated based mainly on intellectual merit. Yet this ideal has been widely contested. Throughout the 20th and 21st centuries, research has shown that the social stratification present in broader society permeates the organization and prestige hierarchies (references). As a result, academic and scientific institutions not only reflect existing inequalities but often actively reproduce them.\nAmong these, gender has been the most extensively studied societal structure for understanding how stratification and inequality are (re)produced through both institutionalized and informal mechanisms within academic and scientific institutions (xxxx). Hundreds of scholarly works have examined how gender structures—often conceptualized in binary terms—constrain women’s access to and advancement within academia across different contexts and roles (xxxx). In many countries, women’s representation has increased at the undergraduate level, including in math-intensive fields historically dominated by men. However, their presence declines sharply at senior ranks, echoing what has been widely described as the “leaky pipeline.”\nWhile gender remains central to understanding inequality in scientific careers, we argue for widening the analytical lens to include other persistent structures—particularly social class and geographic origin—that have shaped the educational trajectories of those who are, or will become, the next generation of scientists. These factors have been widely analyzed in the broad social stratification literature (xxxxxx), particularly for their impact on access to prestigious educational institutions. Yet they remain largely overlooked in studies of scientific careers; perhaps due to the difficulty of accessing these data and/or the assumption that class and geographic origin become imperceptible at the light of their scientific productivity (xxxx).\nThis article addresses that gap by analyzing three cohorts of Chilean researchers (N = 2,436) who received a competitive government-funded doctoral fellowship between 2014 and 2016. Chile was selected as the national case for three key reasons. First, the country significantly expanded its doctoral fellowship programs after 2008, offering funding for studies both within Chile and abroad. Second, Chile exhibits high levels of social class and geographic inequality—patterns that characterize the higher education systems of many countries across Latin America. Third, it offers access to a unique longitudinal dataset that includes researchers’ high school and regional background, enabling us to examine the effects of gender, class, and geographic origin across three key academic milestones: (1) the selection and unequal chances of entering a prestigious undergraduate institution, (2) the pursuit of doctoral studies, and (3) scientific productivity in the six years following the fellowship award. Using this dataset, we applied a path model analysis to estimate the direct and indirect effects of gender, social class, and geographic origin across these three moments.\nWhile gendered patterns of scientific productivity align with existing literature, our findings complicate linear models of stratification. Researchers from working-class backgrounds produce research outputs at rates statistically similar to those of their upper-class peers. Even more unexpectedly, researchers who grew up in less economically and culturally developed regions outperform those from the wealthier, metropolitan center. These findings suggest that commonly held assumptions about advantage and academic performance do not fully account for the lived realities—and possible exceptional adaptations—of those who enter academia from structurally marginalized positions.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Recognizing inequalities in the Chilean academia: A longitudinal analysis of how Gender, Social Class, and Geographic Origins affects Scientific Careers</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#geographical-disparities-in-academic-trayectories",
+    "href": "index.html#geographical-disparities-in-academic-trayectories",
+    "title": "Geographical Disparities",
+    "section": "2.1 Geographical disparities in academic trayectories",
+    "text": "2.1 Geographical disparities in academic trayectories",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Recognizing inequalities in the Chilean academia: A longitudinal analysis of how Gender, Social Class, and Geographic Origins affects Scientific Careers</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#socioeconomic-status",
+    "href": "index.html#socioeconomic-status",
+    "title": "Geographical Disparities",
+    "section": "2.2 Socioeconomic status",
+    "text": "2.2 Socioeconomic status",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Recognizing inequalities in the Chilean academia: A longitudinal analysis of how Gender, Social Class, and Geographic Origins affects Scientific Careers</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#disciplinary-differences-in-scientific-production",
+    "href": "index.html#disciplinary-differences-in-scientific-production",
+    "title": "Geographical Disparities",
+    "section": "2.3 Disciplinary differences in scientific production",
+    "text": "2.3 Disciplinary differences in scientific production",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Recognizing inequalities in the Chilean academia: A longitudinal analysis of how Gender, Social Class, and Geographic Origins affects Scientific Careers</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#gender-and-scientific-production",
+    "href": "index.html#gender-and-scientific-production",
+    "title": "Geographical Disparities",
+    "section": "2.4 Gender and scientific production",
+    "text": "2.4 Gender and scientific production",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Recognizing inequalities in the Chilean academia: A longitudinal analysis of how Gender, Social Class, and Geographic Origins affects Scientific Careers</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#scolarship-selection-process",
+    "href": "index.html#scolarship-selection-process",
+    "title": "Geographical Disparities",
+    "section": "2.5 Scolarship selection process",
+    "text": "2.5 Scolarship selection process",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Recognizing inequalities in the Chilean academia: A longitudinal analysis of how Gender, Social Class, and Geographic Origins affects Scientific Careers</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#data-and-sample",
+    "href": "index.html#data-and-sample",
+    "title": "Geographical Disparities",
+    "section": "3.1 Data and sample",
+    "text": "3.1 Data and sample\nEste estudio utiliza una base de datos integrada que combina información administrativa de doctores graduados con datos bibliométricos de Scopus. La muestra incluye información sobre:\n\nVariables demográficas: género registrado, origen nacional (Chile vs. extranjero)\nVariables académicas: disciplina del doctorado, promedio académico (Average)\nVariables de origen: región de procedencia (categorizada en 3 grupos), nivel socioeconómico del establecimiento educativo\nVariables bibliométricas: conteo de publicaciones en Scopus total y previo al doctorado\n\n\n\nMostrar código\n# Cargar datos\ndf_filtrado &lt;- read_rds(\"input/df_filtrado.rds\")\n\n# Seleccionar variables de análisis\ndf_senderos &lt;- df_filtrado %&gt;% \n  dplyr::select(\n    FOLIO, \n    DISCIPLINA_DOCTORADO, \n    ES_CHILE, \n    SEXO_REGISTRADO, \n    Average, \n    GSE_ESTABLECIMIENTO, \n    REGIONES_3, \n    SCOPUS_COUNT, \n    SCOPUS_COUNT_ANTES_x\n  )\n\n# Mostrar estructura de los datos\nglimpse(df_senderos)\n\n\nRows: 2,436\nColumns: 9\n$ FOLIO                &lt;dbl&gt; 72160230, 21150571, 72170568, 72170089, 72170561,…\n$ DISCIPLINA_DOCTORADO &lt;chr&gt; \"Ingeniería\", \"Humanidades\", \"Ingeniería\", \"Human…\n$ ES_CHILE             &lt;chr&gt; \"Extranjero\", \"Chile\", \"Extranjero\", \"Extranjero\"…\n$ SEXO_REGISTRADO      &lt;fct&gt; Masculino, Masculino, Masculino, Femenino, Mascul…\n$ Average              &lt;dbl&gt; 0.9759361, -0.9344519, 0.9317473, 2.7555782, 0.57…\n$ GSE_ESTABLECIMIENTO  &lt;fct&gt; Alto, Bajo, Alto, Alto, Medio, Medio, Bajo, Medio…\n$ REGIONES_3           &lt;fct&gt; Región Metropolitana, Valparaiso o Concepción, Re…\n$ SCOPUS_COUNT         &lt;dbl&gt; 25, 2, 7, 0, 1, 20, 4, 1, 46, 1, 4, 4, 29, 0, 3, …\n$ SCOPUS_COUNT_ANTES_x &lt;dbl&gt; 4, 0, 1, 0, 0, 4, 2, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1…",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Recognizing inequalities in the Chilean academia: A longitudinal analysis of how Gender, Social Class, and Geographic Origins affects Scientific Careers</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#variables",
+    "href": "index.html#variables",
+    "title": "Geographical Disparities",
+    "section": "3.2 Variables",
+    "text": "3.2 Variables",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Recognizing inequalities in the Chilean academia: A longitudinal analysis of how Gender, Social Class, and Geographic Origins affects Scientific Careers</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#analytic-strategy",
+    "href": "index.html#analytic-strategy",
+    "title": "Geographical Disparities",
+    "section": "3.3 Analytic Strategy",
+    "text": "3.3 Analytic Strategy\nLa estrategia analítica contempla tres componentes principales:\n\n3.3.1 1. Análisis Descriptivo\nCaracterización de la distribución de las variables principales y exploración de patrones bivariados entre las variables de interés.\n\n\n3.3.2 Path analysis",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Recognizing inequalities in the Chilean academia: A longitudinal analysis of how Gender, Social Class, and Geographic Origins affects Scientific Careers</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#principales-hallazgos",
+    "href": "index.html#principales-hallazgos",
+    "title": "Geographical Disparities",
+    "section": "5.1 Principales Hallazgos",
+    "text": "5.1 Principales Hallazgos",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Recognizing inequalities in the Chilean academia: A longitudinal analysis of how Gender, Social Class, and Geographic Origins affects Scientific Careers</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#información-de-la-sesión",
+    "href": "index.html#información-de-la-sesión",
+    "title": "Geographical Disparities",
+    "section": "5.2 Información de la Sesión",
+    "text": "5.2 Información de la Sesión\n\n\nMostrar código\nsessioninfo::session_info()\n\n\n─ Session info ───────────────────────────────────────────────────────────────\n setting  value\n version  R version 4.5.1 (2025-06-13 ucrt)\n os       Windows 11 x64 (build 22621)\n system   x86_64, mingw32\n ui       RTerm\n language (EN)\n collate  Spanish_Chile.utf8\n ctype    Spanish_Chile.utf8\n tz       America/Santiago\n date     2025-12-15\n pandoc   3.4 @ C:/Program Files/RStudio/resources/app/bin/quarto/bin/tools/ (via rmarkdown)\n quarto   NA @ C:\\\\Users\\\\carlo\\\\AppData\\\\Local\\\\Programs\\\\Quarto\\\\bin\\\\quarto.exe\n\n─ Packages ───────────────────────────────────────────────────────────────────\n package      * version date (UTC) lib source\n cli            3.6.5   2025-04-23 [1] CRAN (R 4.5.1)\n digest         0.6.37  2024-08-19 [1] CRAN (R 4.5.1)\n dplyr        * 1.1.4   2023-11-17 [1] CRAN (R 4.5.1)\n evaluate       1.0.5   2025-08-27 [1] CRAN (R 4.5.1)\n farver         2.1.2   2024-05-13 [1] CRAN (R 4.5.1)\n fastmap        1.2.0   2024-05-15 [1] CRAN (R 4.5.1)\n forcats      * 1.0.0   2023-01-29 [1] CRAN (R 4.5.1)\n generics       0.1.4   2025-05-09 [1] CRAN (R 4.5.1)\n ggplot2      * 4.0.0   2025-09-11 [1] CRAN (R 4.5.1)\n glue           1.8.0   2024-09-30 [1] CRAN (R 4.5.1)\n gt           * 1.0.0   2025-04-05 [1] CRAN (R 4.5.1)\n gtable         0.3.6   2024-10-25 [1] CRAN (R 4.5.1)\n hms            1.1.3   2023-03-21 [1] CRAN (R 4.5.1)\n htmltools      0.5.8.1 2024-04-04 [1] CRAN (R 4.5.1)\n htmlwidgets    1.6.4   2023-12-06 [1] CRAN (R 4.5.1)\n jsonlite       2.0.0   2025-03-27 [1] CRAN (R 4.5.1)\n knitr        * 1.50    2025-03-16 [1] CRAN (R 4.5.1)\n lifecycle      1.0.4   2023-11-07 [1] CRAN (R 4.5.1)\n lubridate    * 1.9.4   2024-12-08 [1] CRAN (R 4.5.1)\n magrittr       2.0.3   2022-03-30 [1] CRAN (R 4.5.1)\n pacman         0.5.1   2019-03-11 [1] CRAN (R 4.5.1)\n pillar         1.11.0  2025-07-04 [1] CRAN (R 4.5.1)\n pkgconfig      2.0.3   2019-09-22 [1] CRAN (R 4.5.1)\n purrr        * 1.1.0   2025-07-10 [1] CRAN (R 4.5.1)\n R6             2.6.1   2025-02-15 [1] CRAN (R 4.5.1)\n RColorBrewer   1.1-3   2022-04-03 [1] CRAN (R 4.5.0)\n readr        * 2.1.5   2024-01-10 [1] CRAN (R 4.5.1)\n rlang          1.1.6   2025-04-11 [1] CRAN (R 4.5.1)\n rmarkdown      2.29    2024-11-04 [1] CRAN (R 4.5.1)\n rstudioapi     0.17.1  2024-10-22 [1] CRAN (R 4.5.1)\n S7             0.2.0   2024-11-07 [1] CRAN (R 4.5.1)\n scales       * 1.4.0   2025-04-24 [1] CRAN (R 4.5.1)\n sessioninfo  * 1.2.3   2025-02-05 [1] CRAN (R 4.5.1)\n sjPlot       * 2.9.0   2025-07-10 [1] CRAN (R 4.5.1)\n stringi        1.8.7   2025-03-27 [1] CRAN (R 4.5.0)\n stringr      * 1.5.2   2025-09-08 [1] CRAN (R 4.5.1)\n tibble       * 3.3.0   2025-06-08 [1] CRAN (R 4.5.1)\n tidyr        * 1.3.1   2024-01-24 [1] CRAN (R 4.5.1)\n tidyselect     1.2.1   2024-03-11 [1] CRAN (R 4.5.1)\n tidyverse    * 2.0.0   2023-02-22 [1] CRAN (R 4.5.1)\n timechange     0.3.0   2024-01-18 [1] CRAN (R 4.5.1)\n tzdb           0.5.0   2025-03-15 [1] CRAN (R 4.5.1)\n vctrs          0.6.5   2023-12-01 [1] CRAN (R 4.5.1)\n withr          3.0.2   2024-10-28 [1] CRAN (R 4.5.1)\n xfun           0.53    2025-08-19 [1] CRAN (R 4.5.1)\n xml2           1.4.0   2025-08-20 [1] CRAN (R 4.5.1)\n yaml           2.3.10  2024-07-26 [1] CRAN (R 4.5.0)\n\n [1] C:/Users/carlo/AppData/Local/R/win-library/4.5\n [2] C:/Program Files/R/R-4.5.1/library\n * ── Packages attached to the search path.\n\n──────────────────────────────────────────────────────────────────────────────",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Recognizing inequalities in the Chilean academia: A longitudinal analysis of how Gender, Social Class, and Geographic Origins affects Scientific Careers</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#referencias",
+    "href": "index.html#referencias",
+    "title": "Geographical Disparities",
+    "section": "5.3 Referencias",
+    "text": "5.3 Referencias",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Recognizing inequalities in the Chilean academia: A longitudinal analysis of how Gender, Social Class, and Geographic Origins affects Scientific Careers</span>"
+    ]
+  }
+]
