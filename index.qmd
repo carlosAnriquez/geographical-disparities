@@ -8,7 +8,7 @@ author:
     affiliation: ""
     email: ""
   - name: "Carlos Anríquez"
-    emai: ""
+    email: ""
 date: today
 abstract: |
  
@@ -89,7 +89,7 @@ df_senderos <- read_rds("output/df_senderos.rds")
 # Preparar datos categóricos
 # Crear tabla para variables categóricas
 tabla_categoricas <- df_senderos %>%
-  dplyr::select(ES_CHILE, SEXO_REGISTRADO, GSE_ESTABLECIMIENTO, REGIONES_3) %>%
+  dplyr::select(CHILEDOCTORADO, SEXO_REGISTRADO, GSE_ESTABLECIMIENTO, REGIONES_3, tipuban) %>%
   pivot_longer(everything(), names_to = "Variable", values_to = "Valor") %>%
   drop_na() %>%
   count(Variable, Valor) %>%
@@ -98,31 +98,31 @@ tabla_categoricas <- df_senderos %>%
          Frecuencia = paste0(n, " (", Porcentaje, "%)")) %>%
   dplyr::select(Variable, Valor, Frecuencia) %>%
   mutate(Variable = case_when(
-      Variable == "ES_CHILE" ~ "National PhD",
+      Variable == "CHILEDOCTORADO" ~ "National PhD",
       Variable == "SEXO_REGISTRADO" ~ "Gender",
       Variable == "GSE_ESTABLECIMIENTO" ~ "Socio-economic Status",
       Variable == "REGIONES_3" ~ "Region",
+      Variable == "tipuban" ~ "Publication before PhD",
       TRUE ~ Variable))
+
 # Crear tabla para variables numéricas
+
 tabla_numericas <- df_senderos %>%
   dplyr::select(Average, z_scopus_despues) %>%
   pivot_longer(everything(), names_to = "Variable", values_to = "Valor") %>%
-  drop_na() %>%
-  group_by(Variable) %>%
-  summarise(
+    drop_na() %>%
+    group_by(Variable) %>%
+    summarise(
     Mínimo = round(min(Valor, na.rm = TRUE), 2),
     Máximo = round(max(Valor, na.rm = TRUE), 2),
     Media = round(mean(Valor, na.rm = TRUE), 2),
     `Desv. Est.` = round(sd(Valor, na.rm = TRUE), 2),
-    N = n()
-  ) %>%
-  mutate(
+    N = n()) %>%
+    mutate(
     Variable = case_when(
-      Variable == "Average" ~ "PhD Prestige",
-      Variable == "z_scopus_despues" ~ "Publications after PhD",
-      TRUE ~ Variable
-    )
-  )
+    Variable == "Average" ~ "PhD Prestige (Z)",
+    Variable == "z_scopus_despues" ~ "Publications after PhD (Z)",
+    TRUE ~ Variable))
 
 # Tabla de variables categóricas con grupos
 tabla_categoricas %>%
@@ -132,55 +132,66 @@ tabla_categoricas %>%
   ) %>%
   cols_label(
     Valor = "Category",
-    Frecuencia = "n (%)"
-  ) %>%
+    Frecuencia = "n (%)") %>%
   tab_style(
     style = cell_text(weight = "bold"),
-    locations = cells_column_labels()
-  ) %>%
+    locations = cells_column_labels()) %>%
   tab_style(
     style = cell_fill(color = "#f0f0f0"),
-    locations = cells_row_groups()
-  ) %>%
-  tab_options(
-    table.font.size = px(11),
+    locations = cells_row_groups()) %>%
+  tab_options(table.font.size = px(11),
     heading.title.font.size = px(12),
     heading.title.font.weight = "bold",
-    row_group.font.weight = "bold"
-  )
+    row_group.font.weight = "bold")
 
 # Mostrar tabla de variables numéricas
 tabla_numericas %>%
   gt() %>%
-  tab_header(
-    title = "Tabla 2. Descriptive statistics for numerical values"
-  ) %>%
-  cols_label(
-    Variable = "Variable",
-    Mínimo = "Min.",
-    Máximo = "Max.",
-    Media = "Mean",
-    `Desv. Est.` = "SE",
-    N = "N"
-  ) %>%
-  tab_style(
-    style = cell_text(weight = "bold"),
-    locations = cells_column_labels()
-  ) %>%
-  tab_style(
-    style = cell_text(weight = "bold"),
-    locations = cells_body(columns = Variable)
-  ) %>%
-  tab_options(
-    table.font.size = px(11),
-    heading.title.font.size = px(12),
-    heading.title.font.weight = "bold"
-  )
+  tab_header(title = "Tabla 2. Descriptive statistics for numerical values") %>%
+             cols_label(Variable = "Variable",
+             Mínimo = "Min.",
+             Máximo = "Max.",
+             Media = "Mean",
+             `Desv. Est.` = "SE",
+             N = "N") %>%
+  tab_style(style = cell_text(weight = "bold"),
+    locations = cells_column_labels()) %>%
+  tab_style(style = cell_text(weight = "bold"),
+            locations = cells_body(columns = Variable)) %>%
+  tab_options(table.font.size = px(11),
+              heading.title.font.size = px(12),
+              heading.title.font.weight = "bold")
 ```
 
 ## Analytic Strategy
 
 # Findings
+
+Z scopus después
+-> terdoc (0.323)
+-> fem (-0.191)
+-> tipuban (-0.309)
+-> medio alto (-0.127)
+-> medio (-0.106)
+-> metval (-0.141)
+-> doccl (-0.131)
+
+Prestigio
+-> medio alto (-0.127)
+-> medio (-0.205)
+-> bajo (-0.331)
+-> región (0.134)
+-> acred (0.09)
+-> doccl(-1.073)
+
+Tipuban
+-> Sexo (-0.038)
+-> metval (-0.041)
+
+Acred
+-> medio alto (-0.388)
+-> medio (-0.366)
+-> bajo (-0.741)
 
 # Conclusions
 

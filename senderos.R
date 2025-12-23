@@ -4,15 +4,18 @@ pacman::p_load(dplyr,ggplot2,tidyverse,tibble, scales, purrr, scales, gt, sessio
 
 df_filtrado <- read_rds("input/df_filtrado.rds")
 
-df_senderos <- df_filtrado %>% dplyr::select(FOLIO, DISCIPLINA_DOCTORADO, ES_CHILE, SEXO_REGISTRADO, Average, 
-                                             GSE_ESTABLECIMIENTO, REGIONES_3, SCOPUS_COUNT, SCOPUS_COUNT_DESPUES_x, 
-                                             SCOPUS_COUNT_ANTES_x)
+df_senderos <- df_filtrado %>% dplyr::select(FOLIO, 
+                                             DISCIPLINA_DOCTORADO, 
+                                             PAIS_POSGRADO, CHILEDOCTORADO,
+                                             SEXO_REGISTRADO,REGIONES_3,
+                                             GSE_ESTABLECIMIENTO, 
+                                             PREGRADO_ELITE,ANIOS_ACREDITACION_PREGRADO,
+                                             ACREDITACION_PREGRADO, SCOPUS_COUNT_ANTES,
+                                             SCOPUS_COUNT_DESPUES, SCOPUS_COUNT_DURANTE,
+                                             Average, tipuban, z_scopus_despues,
+                                             SJR_AVG_JCPD, SJR_N_Q1, SJR_N_Q2,
+                                             SJR_N_Q3, SJR_N_Q4, SJR_AVG_Q)
 
-df_senderos <- df_senderos %>%
-  group_by(DISCIPLINA_DOCTORADO) %>%
-  mutate(
-    z_scopus_despues = (SCOPUS_COUNT_DESPUES_x - mean(SCOPUS_COUNT_DESPUES_x, na.rm = TRUE)) / 
-      sd(SCOPUS_COUNT_DESPUES_x, na.rm = TRUE)) %>% ungroup()
 
 
 saveRDS(df_senderos, "output/df_senderos.rds")
