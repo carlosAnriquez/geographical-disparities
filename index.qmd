@@ -76,7 +76,14 @@ While gendered patterns of scientific productivity align with existing literatur
 
 ## Data and sample
 
+The database is a longitudinal reconstruction of the academic trajectories of three cohorts of Chilean researchers (N = 2436) who received a doctoral scholarship between 2014 and 2016. It includes information on the socioeconomic level of the high school they attended, the region of the institution, the accreditation level of their undergraduate program, the prestige of the doctoral university, the postgraduate area, and the number of publications produced up to six years after the scholarship was awarded.
+
+
 ## Variables
+
+Table 1 shows the variables used in the analysis. These summarize the researchers' trajectory from secondary education to scientific productivity after the doctorate. The analysis employed three sociodemographic variables: sex, socioeconomic status, and region. To measure socioeconomic status, the socioeconomic classification of each researcher's high school served as a proxy, while geographic origin was determined by the educational institution's region.
+
+Undergraduate prestige was measured through the accreditation level of the researcher's university as determined by the National Education Commission. For doctoral prestige, we calculated the average between the scores in the Shanghai and QS international rankings, expressed as a Z-score. Finally, scientific productivity was measured through the number of publications, standardized based on the average publications in the researcher's area.
 
 ```{r cargar bb.dd, echo= FALSE}
 
@@ -84,84 +91,118 @@ df_senderos <- read_rds("output/df_senderos.rds")
 
 ```
 
-
 ```{r tabla-variables, echo=FALSE}
-# Preparar datos categóricos
-# Crear tabla para variables categóricas
-tabla_categoricas <- df_senderos %>%
-  dplyr::select(CHILEDOCTORADO, SEXO_REGISTRADO, GSE_ESTABLECIMIENTO, REGIONES_3, tipuban) %>%
+
+# Preparar datos categóricos en formato amplio
+tabla_cat_procesada <- df_senderos %>%
+  dplyr::select(SEXO_REGISTRADO, GSE_ESTABLECIMIENTO, REGIONES_3, 
+                ACREDITACION_PREGRADO, tipuban, CHILEDOCTORADO) %>%
   pivot_longer(everything(), names_to = "Variable", values_to = "Valor") %>%
   drop_na() %>%
   count(Variable, Valor) %>%
   group_by(Variable) %>%
   mutate(Porcentaje = round(n / sum(n) * 100, 1),
-         Frecuencia = paste0(n, " (", Porcentaje, "%)")) %>%
-  dplyr::select(Variable, Valor, Frecuencia) %>%
-  mutate(Variable = case_when(
-      Variable == "CHILEDOCTORADO" ~ "National PhD",
+         Estadistico = paste0(n, " (", Porcentaje, "%)")) %>%
+  ungroup() %>%
+  dplyr::select(Variable, Valor, Estadistico)
+
+# Preparar datos numéricos en formato amplio  
+tabla_num_procesada <- df_senderos %>%
+  dplyr::select(Average, z_scopus_despues) %>%
+  pivot_longer(everything(), names_to = "Variable", values_to = "Valor_num") %>%
+  drop_na() %>%
+  group_by(Variable) %>%
+  summarise(
+    Min = round(min(Valor_num, na.rm = TRUE), 2),
+    Max = round(max(Valor_num, na.rm = TRUE), 2),
+    Mean = round(mean(Valor_num, na.rm = TRUE), 2),
+    SD = round(sd(Valor_num, na.rm = TRUE), 2)) %>%
+  pivot_longer(cols = c(Min, Max, Mean, SD), 
+               names_to = "Valor", 
+               values_to = "Estadistico") %>%
+  mutate(Estadistico = as.character(Estadistico)) %>%
+  dplyr::select(Variable, Valor, Estadistico)
+
+# Combinar ambas tablas
+tabla_combinada <- bind_rows(
+  tabla_cat_procesada,
+  tabla_num_procesada
+) %>%
+  mutate(
+    Variable = case_when(
       Variable == "SEXO_REGISTRADO" ~ "Gender",
       Variable == "GSE_ESTABLECIMIENTO" ~ "Socio-economic Status",
       Variable == "REGIONES_3" ~ "Region",
+      Variable == "ACREDITACION_PREGRADO" ~ "Undergraduate Prestige",
       Variable == "tipuban" ~ "Publication before PhD",
-      TRUE ~ Variable))
-
-# Crear tabla para variables numéricas
-
-tabla_numericas <- df_senderos %>%
-  dplyr::select(Average, z_scopus_despues) %>%
-  pivot_longer(everything(), names_to = "Variable", values_to = "Valor") %>%
-    drop_na() %>%
-    group_by(Variable) %>%
-    summarise(
-    Mínimo = round(min(Valor, na.rm = TRUE), 2),
-    Máximo = round(max(Valor, na.rm = TRUE), 2),
-    Media = round(mean(Valor, na.rm = TRUE), 2),
-    `Desv. Est.` = round(sd(Valor, na.rm = TRUE), 2),
-    N = n()) %>%
-    mutate(
-    Variable = case_when(
-    Variable == "Average" ~ "PhD Prestige (Z)",
-    Variable == "z_scopus_despues" ~ "Publications after PhD (Z)",
-    TRUE ~ Variable))
-
-# Tabla de variables categóricas con grupos
-tabla_categoricas %>%
-  gt(groupname_col = "Variable") %>%
-  tab_header(
-    title = "Table 1. Distribution of categorical variables"
+      Variable == "Average" ~ "PhD Prestige (Z)",
+      Variable == "CHILEDOCTORADO" ~ "National PhD",
+      Variable == "z_scopus_despues" ~ "Publications after PhD (Z)",
+      TRUE ~ Variable
+    ),
+    Valor = case_when(
+      Valor == "Min" ~ "Min.",
+      Valor == "Max" ~ "Max.",
+      Valor == "Mean" ~ "Mean",
+      Valor == "SD" ~ "SD",
+      TRUE ~ Valor
+    ),
+    orden = case_when(
+      Variable == "Gender" ~ 1,
+      Variable == "Socio-economic Status" ~ 2,
+      Variable == "Region" ~ 3,
+      Variable == "Undergraduate Prestige" ~ 4,
+      Variable == "Publication before PhD" ~ 5,
+      Variable == "PhD Prestige (Z)" ~ 6,
+      Variable == "National PhD" ~ 7,
+      Variable == "Publications after PhD (Z)" ~ 8,
+      TRUE ~ 99
+    )
   ) %>%
-  cols_label(
-    Valor = "Category",
-    Frecuencia = "n (%)") %>%
-  tab_style(
-    style = cell_text(weight = "bold"),
-    locations = cells_column_labels()) %>%
-  tab_style(
-    style = cell_fill(color = "#f0f0f0"),
-    locations = cells_row_groups()) %>%
-  tab_options(table.font.size = px(11),
-    heading.title.font.size = px(12),
-    heading.title.font.weight = "bold",
-    row_group.font.weight = "bold")
+  arrange(orden, Valor)
 
-# Mostrar tabla de variables numéricas
-tabla_numericas %>%
-  gt() %>%
-  tab_header(title = "Tabla 2. Descriptive statistics for numerical values") %>%
-             cols_label(Variable = "Variable",
-             Mínimo = "Min.",
-             Máximo = "Max.",
-             Media = "Mean",
-             `Desv. Est.` = "SE",
-             N = "N") %>%
-  tab_style(style = cell_text(weight = "bold"),
-    locations = cells_column_labels()) %>%
-  tab_style(style = cell_text(weight = "bold"),
-            locations = cells_body(columns = Variable)) %>%
-  tab_options(table.font.size = px(11),
-              heading.title.font.size = px(12),
-              heading.title.font.weight = "bold")
+
+# Calcular índices correctamente
+tabla_combinada <- tabla_combinada %>%
+  mutate(fila = row_number())
+
+indices_grupos <- tabla_combinada %>%
+  group_by(Variable) %>%
+  summarise(
+    inicio = min(fila),
+    fin = max(fila),
+    .groups = "drop"
+  )
+
+# Crear tabla base
+tabla_kable <- tabla_combinada %>%
+  dplyr::select(Valor, Estadistico) %>%
+  knitr::kable(booktabs = TRUE,
+               col.names = c("Category", "Statistic"),
+               caption = "Table 1. Descriptive Statistics",
+               align = c("l", "r")) %>%
+  kableExtra::kable_styling(
+    latex_options = c("hold_position", "striped"),
+    font_size = 11,
+    full_width = FALSE
+  )
+
+# Agregar grupos en orden correcto
+for(i in 1:nrow(indices_grupos)) {
+  tabla_kable <- tabla_kable %>%
+    kableExtra::pack_rows(
+      indices_grupos$Variable[i],
+      indices_grupos$inicio[i],
+      indices_grupos$fin[i],
+      bold = TRUE,
+      latex_gap_space = "0.5em"
+    )
+}
+
+tabla_kable
+
 ```
+
 
 ## Analytic Strategy
 
@@ -195,15 +236,9 @@ Acred
 
 # Conclusions
 
----
-
-## Session info
-
-```{r session-info, echo= FALSE}
-sessioninfo::session_info()
-```
-
 ## Referencias
 
 ::: {#refs}
+
+
 :::

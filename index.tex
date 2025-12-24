@@ -125,12 +125,19 @@
 
 
 \usepackage{booktabs}
-\usepackage{caption}
 \usepackage{longtable}
-\usepackage{colortbl}
 \usepackage{array}
-\usepackage{anyfontsize}
 \usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
 \usepackage{setspace}
 \usepackage{float}
 \usepackage{indentfirst}
@@ -196,7 +203,7 @@ education, academic inequalities},
 analysis of how Gender, Social Class, and Geographic Origins affects
 Scientific Careers}
 \author{Roxana Chiappa \and Paula Clasing \and Carlos Anríquez}
-\date{2025-12-16}
+\date{2025-12-24}
 \begin{document}
 \maketitle
 
@@ -294,57 +301,85 @@ process}\label{scolarship-selection-process}
 
 \subsection{Data and sample}\label{data-and-sample}
 
+The database is a longitudinal reconstruction of the academic
+trajectories of three cohorts of Chilean researchers (N = 2436) who
+received a doctoral scholarship between 2014 and 2016. It includes
+information on the socioeconomic level of the high school they attended,
+the region of the institution, the accreditation level of their
+undergraduate program, the prestige of the doctoral university, the
+postgraduate area, and the number of publications produced up to six
+years after the scholarship was awarded.
+
 \subsection{Variables}\label{variables}
 
-\begin{table}
-\caption*{
-{\large Table 1. Distribution of categorical variables}
-} 
-\fontsize{8.2pt}{9.9pt}\selectfont
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lr}
-\toprule
-Category & n (\%) \\ 
-\midrule\addlinespace[2.5pt]
-\multicolumn{2}{l}{{\cellcolor[HTML]{F0F0F0}{National PhD}}} \\[2.5pt] 
-\midrule\addlinespace[2.5pt]
-Chile & 1523 (62.5\%) \\ 
-Extranjero & 913 (37.5\%) \\ 
-\midrule\addlinespace[2.5pt]
-\multicolumn{2}{l}{{\cellcolor[HTML]{F0F0F0}{Socio-economic Status}}} \\[2.5pt] 
-\midrule\addlinespace[2.5pt]
-Alto & 849 (34.9\%) \\ 
-Bajo & 473 (19.4\%) \\ 
-Medio & 663 (27.2\%) \\ 
-Medio alto & 451 (18.5\%) \\ 
-\midrule\addlinespace[2.5pt]
-\multicolumn{2}{l}{{\cellcolor[HTML]{F0F0F0}{Region}}} \\[2.5pt] 
-\midrule\addlinespace[2.5pt]
-Otra región & 720 (29.6\%) \\ 
-Región Metropolitana & 1190 (48.9\%) \\ 
-Valparaiso o Concepción & 525 (21.6\%) \\ 
-\midrule\addlinespace[2.5pt]
-\multicolumn{2}{l}{{\cellcolor[HTML]{F0F0F0}{Gender}}} \\[2.5pt] 
-\midrule\addlinespace[2.5pt]
-Femenino & 1010 (41.5\%) \\ 
-Masculino & 1426 (58.5\%) \\ 
-\bottomrule
-\end{tabular*}
-\end{table}
+Table 1 shows the variables used in the analysis. These summarize the
+researchers' trajectory from secondary education to scientific
+productivity after the doctorate. The analysis employed three
+sociodemographic variables: sex, socioeconomic status, and region. To
+measure socioeconomic status, the socioeconomic classification of each
+researcher's high school served as a proxy, while geographic origin was
+determined by the educational institution's region.
 
-\begin{table}
-\caption*{
-{\large Tabla 2. Descriptive statistics for numerical values}
-} 
-\fontsize{8.2pt}{9.9pt}\selectfont
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrr}
+Undergraduate prestige was measured through the accreditation level of
+the researcher's university as determined by the National Education
+Commission. For doctoral prestige, we calculated the average between the
+scores in the Shanghai and QS international rankings, expressed as a
+Z-score. Finally, scientific productivity was measured through the
+number of publications, standardized based on the average publications
+in the researcher's area.
+
+\begingroup\fontsize{11}{13}\selectfont
+
+\begin{longtable}[t]{lr}
+\caption{\label{tab:tabla-variables}Table 1. Descriptive Statistics}\\
 \toprule
-{\bfseries Variable} & Min. & Max. & Mean & SE & {\bfseries N} \\ 
-\midrule\addlinespace[2.5pt]
-{\bfseries PhD Prestige} & -1.35 & 4.20 & 0.04 & 0.96 & 2436 \\ 
-{\bfseries Publications after PhD} & -0.83 & 28.44 & 0.00 & 1.00 & 2436 \\ 
+Category & Statistic\\
+\midrule
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\cellcolor[HTML]{f0f0f0}{\textbf{Gender}}}\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\cellcolor[HTML]{f0f0f0}{\textbf{National PhD}}}\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\cellcolor[HTML]{f0f0f0}{\textbf{PhD Prestige (Z)}}}\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\cellcolor[HTML]{f0f0f0}{\textbf{Publication before PhD}}}\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\cellcolor[HTML]{f0f0f0}{\textbf{Publications after PhD (Z)}}}\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\cellcolor[HTML]{f0f0f0}{\textbf{Region}}}\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\cellcolor[HTML]{f0f0f0}{\textbf{Socio-economic Status}}}\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\cellcolor[HTML]{f0f0f0}{\textbf{Undergraduate Prestige}}}\\
+\hspace{1em}\hspace{1em}\hspace{1em}\hspace{1em}\hspace{1em}\hspace{1em}\hspace{1em}\hspace{1em}\cellcolor{gray!10}{Femenino} & \cellcolor{gray!10}{1010 (41.5\%)}\\
+\hspace{1em}\hspace{1em}\hspace{1em}\hspace{1em}\hspace{1em}\hspace{1em}\hspace{1em}\hspace{1em}Masculino & 1426 (58.5\%)\\
+\hspace{1em}\hspace{1em}\hspace{1em}\hspace{1em}\hspace{1em}\cellcolor{gray!10}{Alto} & \cellcolor{gray!10}{849 (34.9\%)}\\
+\hspace{1em}\hspace{1em}\hspace{1em}\hspace{1em}Bajo & 473 (19.4\%)\\
+\hspace{1em}\cellcolor{gray!10}{Medio} & \cellcolor{gray!10}{663 (27.2\%)}\\
+Medio alto & 451 (18.5\%)\\
+\cellcolor{gray!10}{Otra región} & \cellcolor{gray!10}{720 (29.6\%)}\\
+Región Metropolitana & 1190 (48.9\%)\\
+\cellcolor{gray!10}{Valparaiso o Concepción} & \cellcolor{gray!10}{525 (21.6\%)}\\
+Acreditacion 4 & 188 (7.7\%)\\
+\cellcolor{gray!10}{Acreditacion 5} & \cellcolor{gray!10}{373 (15.3\%)}\\
+Baja acreditacion o no acreditada & 106 (4.4\%)\\
+\cellcolor{gray!10}{Excelencia} & \cellcolor{gray!10}{812 (33.3\%)}\\
+Investigacion & 957 (39.3\%)\\
+\cellcolor{gray!10}{Sin publicaciones} & \cellcolor{gray!10}{1742 (71.5\%)}\\
+Tiene publicaciones & 694 (28.5\%)\\
+\cellcolor{gray!10}{Max.} & \cellcolor{gray!10}{4.2}\\
+Mean & 0.04\\
+\cellcolor{gray!10}{Min.} & \cellcolor{gray!10}{-1.35}\\
+SD & 0.96\\
+\cellcolor{gray!10}{Chile} & \cellcolor{gray!10}{1523 (62.5\%)}\\
+Extranjero & 913 (37.5\%)\\
+\cellcolor{gray!10}{Max.} & \cellcolor{gray!10}{28.46}\\
+Mean & 0\\
+\cellcolor{gray!10}{Min.} & \cellcolor{gray!10}{-0.84}\\
+SD & 1\\
 \bottomrule
-\end{tabular*}
-\end{table}
+\end{longtable}
+\endgroup{}
 
 \subsection{Analytic Strategy}\label{analytic-strategy}
 
@@ -365,81 +400,6 @@ Acred -\textgreater{} medio alto (-0.388) -\textgreater{} medio (-0.366)
 -\textgreater{} bajo (-0.741)
 
 \section{Conclusions}\label{conclusions}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\subsection{Session info}\label{session-info}
-
-\begin{verbatim}
-- Session info ---------------------------------------------------------------
- setting  value
- version  R version 4.5.1 (2025-06-13 ucrt)
- os       Windows 11 x64 (build 22621)
- system   x86_64, mingw32
- ui       RTerm
- language (EN)
- collate  Spanish_Chile.utf8
- ctype    Spanish_Chile.utf8
- tz       America/Santiago
- date     2025-12-16
- pandoc   3.4 @ C:/Program Files/RStudio/resources/app/bin/quarto/bin/tools/ (via rmarkdown)
- quarto   NA @ C:\\Users\\carlo\\AppData\\Local\\Programs\\Quarto\\bin\\quarto.exe
-
-- Packages -------------------------------------------------------------------
- package      * version date (UTC) lib source
- cli            3.6.5   2025-04-23 [1] CRAN (R 4.5.1)
- digest         0.6.37  2024-08-19 [1] CRAN (R 4.5.1)
- dplyr        * 1.1.4   2023-11-17 [1] CRAN (R 4.5.1)
- evaluate       1.0.5   2025-08-27 [1] CRAN (R 4.5.1)
- farver         2.1.2   2024-05-13 [1] CRAN (R 4.5.1)
- fastmap        1.2.0   2024-05-15 [1] CRAN (R 4.5.1)
- forcats      * 1.0.0   2023-01-29 [1] CRAN (R 4.5.1)
- generics       0.1.4   2025-05-09 [1] CRAN (R 4.5.1)
- ggplot2      * 4.0.0   2025-09-11 [1] CRAN (R 4.5.1)
- glue           1.8.0   2024-09-30 [1] CRAN (R 4.5.1)
- gt           * 1.0.0   2025-04-05 [1] CRAN (R 4.5.1)
- gtable         0.3.6   2024-10-25 [1] CRAN (R 4.5.1)
- hms            1.1.3   2023-03-21 [1] CRAN (R 4.5.1)
- htmltools      0.5.8.1 2024-04-04 [1] CRAN (R 4.5.1)
- jsonlite       2.0.0   2025-03-27 [1] CRAN (R 4.5.1)
- knitr        * 1.50    2025-03-16 [1] CRAN (R 4.5.1)
- lifecycle      1.0.4   2023-11-07 [1] CRAN (R 4.5.1)
- lubridate    * 1.9.4   2024-12-08 [1] CRAN (R 4.5.1)
- magrittr       2.0.3   2022-03-30 [1] CRAN (R 4.5.1)
- pacman         0.5.1   2019-03-11 [1] CRAN (R 4.5.1)
- pillar         1.11.0  2025-07-04 [1] CRAN (R 4.5.1)
- pkgconfig      2.0.3   2019-09-22 [1] CRAN (R 4.5.1)
- purrr        * 1.1.0   2025-07-10 [1] CRAN (R 4.5.1)
- R6             2.6.1   2025-02-15 [1] CRAN (R 4.5.1)
- RColorBrewer   1.1-3   2022-04-03 [1] CRAN (R 4.5.0)
- readr        * 2.1.5   2024-01-10 [1] CRAN (R 4.5.1)
- rlang          1.1.6   2025-04-11 [1] CRAN (R 4.5.1)
- rmarkdown      2.29    2024-11-04 [1] CRAN (R 4.5.1)
- rstudioapi     0.17.1  2024-10-22 [1] CRAN (R 4.5.1)
- S7             0.2.0   2024-11-07 [1] CRAN (R 4.5.1)
- scales       * 1.4.0   2025-04-24 [1] CRAN (R 4.5.1)
- sessioninfo  * 1.2.3   2025-02-05 [1] CRAN (R 4.5.1)
- sjPlot       * 2.9.0   2025-07-10 [1] CRAN (R 4.5.1)
- stringi        1.8.7   2025-03-27 [1] CRAN (R 4.5.0)
- stringr      * 1.5.2   2025-09-08 [1] CRAN (R 4.5.1)
- tibble       * 3.3.0   2025-06-08 [1] CRAN (R 4.5.1)
- tidyr        * 1.3.1   2024-01-24 [1] CRAN (R 4.5.1)
- tidyselect     1.2.1   2024-03-11 [1] CRAN (R 4.5.1)
- tidyverse    * 2.0.0   2023-02-22 [1] CRAN (R 4.5.1)
- timechange     0.3.0   2024-01-18 [1] CRAN (R 4.5.1)
- tzdb           0.5.0   2025-03-15 [1] CRAN (R 4.5.1)
- vctrs          0.6.5   2023-12-01 [1] CRAN (R 4.5.1)
- withr          3.0.2   2024-10-28 [1] CRAN (R 4.5.1)
- xfun           0.53    2025-08-19 [1] CRAN (R 4.5.1)
- xml2           1.4.0   2025-08-20 [1] CRAN (R 4.5.1)
- yaml           2.3.10  2024-07-26 [1] CRAN (R 4.5.0)
-
- [1] C:/Users/carlo/AppData/Local/R/win-library/4.5
- [2] C:/Program Files/R/R-4.5.1/library
- * -- Packages attached to the search path.
-
-------------------------------------------------------------------------------
-\end{verbatim}
 
 \subsection{Referencias}\label{referencias}
 
