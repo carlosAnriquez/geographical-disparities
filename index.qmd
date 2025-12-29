@@ -24,14 +24,12 @@ knitr::opts_chunk$set(
   message = FALSE,
   fig.align = 'center',
   fig.width = 8,
-  fig.height = 6
-)
+  fig.height = 6)
 
 # Cargar librerías necesarias
 pacman::p_load(
   dplyr, ggplot2, tidyverse, tibble, scales, purrr, 
-  gt, sessioninfo, sjPlot, stringr, knitr
-)
+  kableExtra, sessioninfo, sjPlot, stringr, knitr)
 
 # Tema personalizado para gráficos
 theme_academic <- theme_minimal() +
@@ -41,10 +39,10 @@ theme_academic <- theme_minimal() +
     plot.subtitle = element_text(size = 11),
     axis.title = element_text(face = "bold"),
     legend.position = "bottom",
-    panel.grid.minor = element_blank()
-  )
+    panel.grid.minor = element_blank())
 
 theme_set(theme_academic)
+
 ```
 
 # Introduction
@@ -93,7 +91,7 @@ df_senderos <- read_rds("output/df_senderos.rds")
 
 ```{r tabla-variables, echo=FALSE}
 
-# Preparar datos categóricos en formato amplio
+# formato long
 tabla_cat_procesada <- df_senderos %>%
   dplyr::select(SEXO_REGISTRADO, GSE_ESTABLECIMIENTO, REGIONES_3, 
                 ACREDITACION_PREGRADO, tipuban, CHILEDOCTORADO) %>%
@@ -106,7 +104,7 @@ tabla_cat_procesada <- df_senderos %>%
   ungroup() %>%
   dplyr::select(Variable, Valor, Estadistico)
 
-# Preparar datos numéricos en formato amplio  
+# formato long var numericas 
 tabla_num_procesada <- df_senderos %>%
   dplyr::select(Average, z_scopus_despues) %>%
   pivot_longer(everything(), names_to = "Variable", values_to = "Valor_num") %>%
@@ -126,27 +124,23 @@ tabla_num_procesada <- df_senderos %>%
 # Combinar ambas tablas
 tabla_combinada <- bind_rows(
   tabla_cat_procesada,
-  tabla_num_procesada
-) %>%
-  mutate(
-    Variable = case_when(
-      Variable == "SEXO_REGISTRADO" ~ "Gender",
-      Variable == "GSE_ESTABLECIMIENTO" ~ "Socio-economic Status",
-      Variable == "REGIONES_3" ~ "Region",
-      Variable == "ACREDITACION_PREGRADO" ~ "Undergraduate Prestige",
-      Variable == "tipuban" ~ "Publication before PhD",
-      Variable == "Average" ~ "PhD Prestige (Z)",
-      Variable == "CHILEDOCTORADO" ~ "National PhD",
-      Variable == "z_scopus_despues" ~ "Publications after PhD (Z)",
-      TRUE ~ Variable
-    ),
+  tabla_num_procesada) %>%
+  mutate(Variable = case_when(
+         Variable == "SEXO_REGISTRADO" ~ "Gender",
+         Variable == "GSE_ESTABLECIMIENTO" ~ "Socio-economic Status",
+         Variable == "REGIONES_3" ~ "Region",
+         Variable == "ACREDITACION_PREGRADO" ~ "Undergraduate Prestige",
+         Variable == "tipuban" ~ "Publication before PhD",
+         Variable == "Average" ~ "PhD Prestige (Z)",
+         Variable == "CHILEDOCTORADO" ~ "National PhD",
+         Variable == "z_scopus_despues" ~ "Publications after PhD (Z)",
+         TRUE ~ Variable),
     Valor = case_when(
       Valor == "Min" ~ "Min.",
       Valor == "Max" ~ "Max.",
       Valor == "Mean" ~ "Mean",
       Valor == "SD" ~ "SD",
-      TRUE ~ Valor
-    ),
+      TRUE ~ Valor),
     orden = case_when(
       Variable == "Gender" ~ 1,
       Variable == "Socio-economic Status" ~ 2,
@@ -156,13 +150,10 @@ tabla_combinada <- bind_rows(
       Variable == "PhD Prestige (Z)" ~ 6,
       Variable == "National PhD" ~ 7,
       Variable == "Publications after PhD (Z)" ~ 8,
-      TRUE ~ 99
-    )
-  ) %>%
-  arrange(orden, Valor)
+      TRUE ~ 99)) %>%  arrange(orden, Valor)
 
+# tabla combinada
 
-# Calcular índices correctamente
 tabla_combinada <- tabla_combinada %>%
   mutate(fila = row_number())
 
@@ -171,10 +162,9 @@ indices_grupos <- tabla_combinada %>%
   summarise(
     inicio = min(fila),
     fin = max(fila),
-    .groups = "drop"
-  )
+    .groups = "drop")
 
-# Crear tabla base
+# formato kable
 tabla_kable <- tabla_combinada %>%
   dplyr::select(Valor, Estadistico) %>%
   knitr::kable(booktabs = TRUE,
@@ -184,10 +174,9 @@ tabla_kable <- tabla_combinada %>%
   kableExtra::kable_styling(
     latex_options = c("hold_position", "striped"),
     font_size = 11,
-    full_width = FALSE
-  )
+    full_width = FALSE)
 
-# Agregar grupos en orden correcto
+# ordenar tabla
 for(i in 1:nrow(indices_grupos)) {
   tabla_kable <- tabla_kable %>%
     kableExtra::pack_rows(
@@ -195,9 +184,7 @@ for(i in 1:nrow(indices_grupos)) {
       indices_grupos$inicio[i],
       indices_grupos$fin[i],
       bold = TRUE,
-      latex_gap_space = "0.5em"
-    )
-}
+      latex_gap_space = "0.5em")}
 
 tabla_kable
 
@@ -206,33 +193,22 @@ tabla_kable
 
 ## Analytic Strategy
 
-# Findings
+In accordance with the research objectives and the hypotheses proposed, we opted to use path analysis. This technique uses regression models to represent theories of causal relationships. In statistical terms, it consists of a series of ordered regressions within the chosen analytical "path". The main advantage of this method is that it allows to make explicit the relationships between the selected variables.  Additionally, it enables the decomposition of direct and indirect effects (Agresti, 2018, p. 506).
 
-Z scopus después
--> terdoc (0.323)
--> fem (-0.191)
--> tipuban (-0.309)
--> medio alto (-0.127)
--> medio (-0.106)
--> metval (-0.141)
--> doccl (-0.131)
+# Finding
 
-Prestigio
--> medio alto (-0.127)
--> medio (-0.205)
--> bajo (-0.331)
--> región (0.134)
--> acred (0.09)
--> doccl(-1.073)
+In accordance with the hypotheses proposed, social class has a substantial effect on the quality of undergraduate education to which researchers gain access. Compared to the high socioeconomic group, the upper-middle and middle groups decrease the quality of undergraduate education (-0.388 and -0.366, respectively), while the low group has a strong negative effect on undergraduate quality (-0.741). Moreover, the region of origin shows a statistically significant effect. Compared to other regions, completing secondary education in Santiago, Valparaíso, and Concepción has a positive and moderate effect on undergraduate quality (0.367). Finally, gender does not present a statistically significant effect.
 
-Tipuban
--> Sexo (-0.038)
--> metval (-0.041)
+Regarding prior publications, neither socioeconomic group nor undergraduate quality have a statistically significant effect. Being female and coming from the metropolitan, Valparaíso, and Concepción regions have a small negative effect (-0.038 and -0.041).
 
-Acred
--> medio alto (-0.388)
--> medio (-0.366)
--> bajo (-0.741)
+The effects on doctoral prestige are also revealing. Compared to the high socioeconomic group, the other groups decrease doctoral prestige. The upper-middle group has a small negative effect (-0.127), the middle group has a moderate effect (-0.205), and the low group has a moderate to strong effect (-0.331).
+
+Concerning region, coming from the main urban centers increases doctoral prestige (0.134). Undergraduate accreditation has a small but positive effect (0.091). In line with expectations, completing the doctorate in Chile has a negative effect on doctoral prestige (-1.073). Gender and the number of prior publications do not have statistically significant effects on doctoral prestige.
+
+Finally, with respect to publications after the doctorate, socioeconomic group, region, and gender have important effects on scientific productivity. Compared to men, being female presents a moderate negative effect (-0.120). Similarly, compared to the high socioeconomic group, the middle group has a statistically significant negative effect (-0.106) on scientific productivity. However, the low group does not present a statistically significant effect.
+
+On the other hand, coming from the main urban centers has a small but negative effect on scientific productivity (-0.141). Additionally, doctoral prestige presents a small negative effect (-0.053), as does having completed the doctorate in Chile (-0.131). Undergraduate accreditation does not have a statistically significant effect.
+
 
 # Conclusions
 
