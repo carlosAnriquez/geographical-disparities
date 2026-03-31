@@ -1,5 +1,5 @@
 ---
-title: "Recognizing inequalities in the Chilean academia: A longitudinal analysis of how Gender, Social Class, and Geographic Origins affects Scientific Careers"
+title: "Revealing the enduring effect of social class among researchers´s scientific productivity: An analysis from Chile"
 author: 
   - name: "Roxana Chiappa"
     affiliation: "Universidad de Tarapacá"
@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 # Cargar librerías necesarias
 pacman::p_load(
   dplyr, ggplot2, tidyverse, tibble, scales, purrr, 
-  kableExtra, sessioninfo, sjPlot, stringr, knitr)
+  kableExtra, sessioninfo, sjPlot, stringr, knitr, patchwork)
 
 # Tema personalizado para gráficos
 theme_academic <- theme_minimal() +
@@ -47,16 +47,29 @@ theme_set(theme_academic)
 
 # Introduction
 
-One of the central promises of scientific institutions lies in their supposed meritocratic character: a reward system where scientific outcomes are evaluated based mainly on intellectual merit. Yet this ideal has been widely contested. Throughout the 20th and 21st centuries, research has shown that the social stratification present in broader society permeates the organization and prestige hierarchies (references). As a result, academic and scientific institutions not only reflect existing inequalities but often actively reproduce them.
+One of the most robust findings in the higher education literature is that as access expands, actors—both institutions and individuals—occupying privileged positions develop new strategies of differentiation to maintain their relative advantage (xxxxx). This premise lies at the core of Bourdieu and Passeron’s theory of social and cultural reproduction (1977), as well as of sociological approaches concerned with explaining the persistence and, in some cases, the intensification of inequalities across educational trajectories. Theories such as Maximum Maintained Inequality (Raftery & Hout, 1993), the Matthew Effect (Merton, 1968), and related formulations of persistent inequality share a common assumption grounded in cumulative advantage. From this perspective, early access to valued forms of capital—economic, cultural, social, or institutional—generates self-reinforcing processes through which advantages compound over time, systematically positioning already privileged individuals and institutions to secure further resources, recognition, and opportunities.
+In the process of expansion of doctoral education, 
+This dynamic is especially evident in scholarship examining the role of social class of origin in shaping access to prestigious universities in academic careers (Zhang, xxxx). Individuals from upper social class backgrounds are consistently more likely to enroll in elite institutions, where they gain access to networks, resources, and forms of academic socialization that later function as key assets in scientific careers. These forms of social and cultural capital facilitate subsequent transitions, particularly job placement and career advancement within similarly prestigious academic institutions (xxxxx). Being hired to a highly prestigious university is also associated with greater academic productivity.  
+A similar logic of linear accumulation has also structured much of the literature on gender inequalities in scientific careers. Despite women’s increased access to higher education and, in many contexts, their equal or superior academic performance compared to men, their representation declines markedly at higher levels of the academic hierarchy. This pattern is often captured through the metaphor of the “leaky pipeline,” which conceptualizes gender inequality as the cumulative result of successive barriers encountered by women as they advance through an academic system historically structured around androcentric norms.
+In a highly centralized academic system such as Chile’s, regional academic careers are shaped by distinct incentive structures, organizational pressures, and evaluative regimes. For scholars outside the metropolitan core, scientific productivity may function less as a cumulative reward of advantage and more as a strategy of institutional survival and professional legitimacy within contexts marked by lower symbolic capital and greater precarity.
+These theoretical frameworks have been central to understanding the mechanisms that shape access and early-stage selection—particularly for individuals from lower social class backgrounds and for women. Nonetheless, the assumption of linear cumulative advantage becomes less sufficient when the analytical focus shifts to trajectories among those who have already crossed key institutional thresholds.
+ Once individuals have entered doctoral education, secured competitive fellowships, or obtained positions within the academic field, the population under observation is no longer open or broadly stratified, but highly selected, where institutional arrangements and agential mechanism had a role informing those who are able to access. 
+Rather than producing a straightforward continuation of cumulative advantage, inequalities at these later stages tend to reconfigure.  Structural hierarchies such as gender, social class, or region of origin continue to matter, but their effects may vary in magnitude or even direction depending on the specific stage of the career and the outcomes under consideration. This reconfiguration reflects shifts in what counts as valuable capital within the academic field and in how different actors are positioned to convert their resources into scientific recognition, stability, or productivity. Consequently, patterns of advantage among those who “make it” cannot be fully captured by linear models of accumulation, but instead require an analytical framework attentive to stage-specific mechanisms of stratification and to the contextual conditions under which inequalities are reproduced, transformed, or partially offset.
+In this paper, we propose a longitudinal analysis of the effect of three structural dimensions of inequality that shape educational opportunities: gender, class, and regional differences, and explore how they affect key moments of the scientific careers: The selection of the undergraduate university, the decision of studying a doctoral degree, and its publication records after the five years since they obtain the fellowship. 
+Examining a cohort of scholars selected to pursue doctoral training in Chile and abroad through competitive fellowship programs, our findings reveal a counterintuitive pattern: researchers originating from regions outside the metropolitan center exhibit higher levels of scientific productivity, measured by the number of peer-reviewed publications, than their counterparts from the metropolitan area. This pattern does not suggest the absence of inequality, nor does it imply a reversal of structural hierarchies. Rather, it points to the need for a situated understanding of how inequalities are produced, negotiated, and sometimes reconfigured within specific institutional and spatial contexts.
 
-Among these, gender has been the most extensively studied societal structure for understanding how stratification and inequality are (re)produced through both institutionalized and informal mechanisms within academic and scientific institutions (xxxx). Hundreds of scholarly works have examined how gender structures—often conceptualized in binary terms—constrain women’s access to and advancement within academia across different contexts and roles (xxxx). In many countries, women’s representation has increased at the undergraduate level, including in math-intensive fields historically dominated by men. However, their presence declines sharply at senior ranks, echoing what has been widely described as the “leaky pipeline.”
+Analysis of scholarship policies from a perspective of inequiality
+Over the past two decades, the global expansion of higher education has extended into the realm of doctoral training, widely regarded as the highest academic degree. While the United States continues to host the largest number of doctoral enrollments (Grant et al., 2021; OECD, n.d.), several middle-income countries in the so-called Global South have significantly expanded their doctoral education systems, often through state-funded fellowship programs (for Brazil, see Chiappa & Finardi, 2021; for Mexico, see Murillo, 2023; for Chile, see Chiappa & Labraña, 2023; for multiple cases, see Celis et al., 2025).
+These initiatives— implemented in countries such as Chile, Brazil, and Mexico—have been typically framed by meritocratic discourses that claim to reward the most talented individuals (see SEICHTI, n.d., CNIC, 2007; McManus and Nobre, 2017). They offer competitive funding to pursue doctoral studies either domestically or at internationally prestigious institutions, with the broader aim of boosting national scientific capacity and global competitiveness.
+However, the implementation of such initiatives is exposed to at least two levels of stratification. On the one
 
-While gender remains central to understanding inequality in scientific careers, we argue for widening the analytical lens to include other persistent structures—particularly social class and geographic origin—that have shaped the educational trajectories of those who are, or will become, the next generation of scientists. These factors have been widely analyzed in the broad social stratification literature (xxxxxx), particularly for their impact on access to prestigious educational institutions. Yet they remain largely overlooked in studies of scientific careers; perhaps due to the difficulty of accessing these data and/or the assumption that class and geographic origin become imperceptible at the light of their scientific productivity  (xxxx).
 
-This article addresses that gap by analyzing three cohorts of Chilean researchers (N = 2,436) who received a competitive government-funded doctoral fellowship between 2014 and 2016.  Chile was selected as the national case for three key reasons. First, the country significantly expanded its doctoral fellowship programs after 2008, offering funding for studies both within Chile and abroad. Second, Chile exhibits high levels of social class and geographic inequality—patterns that characterize the higher education systems of many countries across Latin America. Third, it offers access to a unique longitudinal dataset that includes researchers’ high school and regional background, enabling us to examine the effects of gender, class, and geographic origin across three key academic milestones: (1) the selection and unequal chances of entering a prestigious undergraduate institution, (2) the pursuit of doctoral studies, and (3) scientific productivity in the six years following the fellowship award. Using this dataset, we applied a path model analysis to estimate the direct and indirect effects of gender, social class, and geographic origin across these three moments.
+Las becas ---> y la politica 
+Inequalities in scientific careers
 
-While gendered patterns of scientific productivity align with existing literature, our findings complicate linear models of stratification. Researchers from working-class backgrounds produce research outputs at rates statistically similar to those of their upper-class peers. Even more unexpectedly, researchers who grew up in less economically and culturally developed regions outperform those from the wealthier, metropolitan center. These findings suggest that commonly held assumptions about advantage and academic performance do not fully account for the lived realities—and possible exceptional adaptations—of those who enter academia from structurally marginalized positions.
-
+Research on scientific careers has long emphasized the cumulative and self-reinforcing nature of inequality. Classic formulations of cumulative advantage and the Matthew effect posit that early access to resources, institutional prestige, and recognition generates compounding processes through which advantages accrue over time, shaping long-term academic productivity and career outcomes. This framework has been highly influential in explaining persistent gender, class, and institutional inequalities in scientific fields, particularly within highly stratified academic systems.
+Much of this literature relies on an implicitly linear understanding of inequality reproduction, assuming that disadvantage uniformly constrains performance and that proximity to centers of power and resources consistently translates into higher productivity. This perspective has been especially prominent in research on the underrepresentation of women across academic trajectories in different national contexts, revealing a series of sorting and filtering mechanisms that systematically limit women’s access to senior academic positions as careers progress.
+However, this linear and accumulative approach becomes less suitable for examining stratification dynamics among those who have already survived and overcome these filtering mechanisms. Once access barriers have been crossed, academic trajectories are shaped not only by accumulated advantage, but also by context-specific institutional arrangements, differentiated incentive structures, and the agential strategies scholars deploy under unequal conditions. By prioritizing cumulative disadvantage as a universal explanatory mechanism, much of the existing literature underestimates the contextual and relational processes through which inequalities are reworked within academic careers.
 
 # Conceptual framework: stratification on sciences.
 
@@ -190,6 +203,31 @@ tabla_kable
 
 ```
 
+```{r outliers-productividad, echo=FALSE}
+
+p2 <- ggplot(df_senderos %>% filter(z_scopus_despues > 3), 
+            aes(x = DISCIPLINA_DOCTORADO, y = z_scopus_despues, 
+                color = DISCIPLINA_DOCTORADO)) +
+  geom_jitter(width = 0.2, alpha = 0.6, size = 2) +
+  labs(title = "Outliers (Z > 3)", x = "", y = "Valor Z") +
+  theme_minimal() +
+  theme(legend.position = "none",
+        axis.text.x = element_blank())
+
+p1 <- ggplot(df_senderos, aes(x = DISCIPLINA_DOCTORADO, y = z_scopus_despues, 
+                              fill = DISCIPLINA_DOCTORADO)) +
+  geom_violin(alpha = 1, color = NA) +
+  stat_summary(fun = median, geom = "point", size = 1, color = "darkgrey") +
+  coord_cartesian(ylim = c(-2, 3)) +
+  labs(title = "", x = "", y = "Valor Z (Scopus post-doctoral)") +
+  theme_minimal() +
+  theme(legend.position = "none",
+        axis.text.x = element_text(angle = 45, hjust = 1, size = 9))
+
+
+p2 / p1
+
+```
 
 ## Analytic Strategy
 
